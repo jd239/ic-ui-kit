@@ -221,7 +221,7 @@ export class DateInput {
   /**
    * The value of the date input. The value can be in any format supported as `dateFormat`, in ISO 8601 date string format (`yyyy-mm-dd`) or as a JavaScript `Date` object.
    */
-  @Prop({ mutable: true }) value?: string | Date = "";
+  @Prop({ mutable: true }) value?: string | Date | null | undefined = "";
 
   /**
    * The validation status - e.g. 'error' | 'warning' | 'success'. This will override the built-in date validation.
@@ -1398,6 +1398,9 @@ export class DateInput {
 
   private handleCalendarOpen = (ev: MouseEvent) => {
     ev.stopImmediatePropagation();
+    this.calendarButtonEl.shadowRoot
+      .querySelector("ic-tooltip")
+      .displayTooltip(false);
     this.calendarButtonClicked.emit({ value: this.selectedDate });
     this.isDateSetFromKeyboardEvent = false;
   };

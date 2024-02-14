@@ -57,11 +57,11 @@ Date
 
 ### Depends on
 
-- [ic-input-container](../ic-input-container)
-- [ic-input-label](../ic-input-label)
-- [ic-input-component-container](../ic-input-component-container)
-- [ic-button](../ic-button)
-- [ic-input-validation](../ic-input-validation)
+- ic-input-container
+- ic-input-label
+- ic-input-component-container
+- ic-button
+- ic-input-validation
 
 ### Graph
 ```mermaid
