@@ -176,8 +176,8 @@ jobs:
         if: always() && steps.canary_cypress_tests.outcome == 'failure'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: ./packages/canary-react/cypress-visual-screenshots/diff
-          target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/cypress-screenshots
+          folder: ./packages/canary-react/cypress-visual-screenshots
+          target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/cypress-visual-screenshots
 
       - name: Upload canary visual regression report
         if: always() && steps.canary_cypress_tests.outcome == 'failure'
@@ -239,26 +239,5 @@ jobs:
         if: ${{ needs.check-updates.outputs.core == 'true' }}
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: ./packages/web-components/storybook-static
-          target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/web-components
-
-      - name: Deploy core react storybook
-        if: ${{ needs.check-updates.outputs.core == 'true' }}
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: ./packages/react/storybook-static
-          target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/react
-
-      - name: Deploy canary web components storybook
-        if: ${{ needs.check-updates.outputs.canary == 'true' }}
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: ./packages/canary-web-components/storybook-static
-          target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/canary-web-components
-
-      - name: Deploy canary react storybook
-        if: ${{ needs.check-updates.outputs.canary == 'true' }}
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: ./packages/canary-react/storybook-static
-          target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/canary-react
+          folder: ./packages/canary-react/cypress-visual-report/
+          target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/cypress-visual-report

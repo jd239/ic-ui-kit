@@ -162,7 +162,7 @@ export namespace Components {
         /**
           * The value of the date input. The value can be in any format supported as `dateFormat`, in ISO 8601 date string format (`yyyy-mm-dd`) or as a JavaScript `Date` object.
          */
-        "value"?: string | Date;
+        "value"?: string | Date | null | undefined;
     }
     interface IcPaginationBar {
         /**
@@ -428,7 +428,7 @@ declare namespace LocalJSX {
         /**
           * The value of the date input. The value can be in any format supported as `dateFormat`, in ISO 8601 date string format (`yyyy-mm-dd`) or as a JavaScript `Date` object.
          */
-        "value"?: string | Date;
+        "value"?: string | Date | null | undefined;
     }
     interface IcPaginationBar {
         /**
