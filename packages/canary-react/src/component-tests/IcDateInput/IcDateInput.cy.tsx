@@ -18,7 +18,6 @@ const CUSTOM_DISABLE_DAY_MESSAGE = "Date disabled";
 const LONG_CUSTOM_DISABLE_DAY_MESSAGE =
   "This is a very long message to test the validation message";
 const STATUS_TEXT_SPAN = ".statustext";
-const DEFAULT_THRESHOLD = 0.03;
 
 describe("IcDateInput", () => {
   beforeEach(() => {
@@ -35,7 +34,7 @@ describe("IcDateInput", () => {
 
     cy.get(DATE_INPUT).should("to.be.visible");
 
-    cy.compareSnapshot("dateInputRender", DEFAULT_THRESHOLD);
+    cy.waitBeforeSnapshot("dateInputRender");
     cy.checkA11yWithWait();
   });
 
@@ -304,7 +303,7 @@ describe("IcDateInput", () => {
     cy.findShadowEl(DATE_INPUT, MONTH_INPUT_ARIA_LABEL).type("04");
     cy.findShadowEl(DATE_INPUT, YEAR_INPUT_ARIA_LABEL).type("2000");
 
-    cy.compareSnapshot("dateInputWithValues", DEFAULT_THRESHOLD);
+    cy.waitBeforeSnapshot("dateInputWithValues");
     cy.checkA11yWithWait();
   });
 
@@ -348,7 +347,7 @@ describe("IcDateInput", () => {
       .find(".statustext")
       .should("have.text", "Please enter a date after 01/07/2001.");
 
-    cy.compareSnapshot("dateInputWithMinValidation", DEFAULT_THRESHOLD);
+    cy.waitBeforeSnapshot("dateInputWithMinValidation");
   });
 
   it("should display validation message if date before max with date string with slashes", () => {
@@ -365,7 +364,7 @@ describe("IcDateInput", () => {
       "Please enter a date before 01/07/2024."
     );
 
-    cy.compareSnapshot("dateInputWithMaxValidation", DEFAULT_THRESHOLD);
+    cy.waitBeforeSnapshot("dateInputWithMaxValidation");
   });
 
   it("should move the cursor to the next input when using slash. Day > Month", () => {
@@ -408,10 +407,7 @@ describe("IcDateInput", () => {
       CUSTOM_DISABLE_DAY_MESSAGE
     );
 
-    cy.compareSnapshot(
-      "dateInputWithCustomDisableDaysMessage",
-      DEFAULT_THRESHOLD
-    );
+    cy.waitBeforeSnapshot("dateInputWithCustomDisableDaysMessage");
   });
 
   it("should display a long custom disabledDaysMessage if disabled day is set", () => {
@@ -429,10 +425,7 @@ describe("IcDateInput", () => {
     cy.findShadowEl(DATE_INPUT, MONTH_INPUT_ARIA_LABEL).type("02");
     cy.findShadowEl(DATE_INPUT, YEAR_INPUT_ARIA_LABEL).type("2024");
 
-    cy.compareSnapshot(
-      "dateInputWithLongCustomDisableDaysMessage",
-      DEFAULT_THRESHOLD
-    );
+    cy.waitBeforeSnapshot("dateInputWithLongCustomDisableDaysMessage");
   });
 
   it("should display custom disabledFutureMessage if disabled future day is set", () => {
@@ -455,10 +448,7 @@ describe("IcDateInput", () => {
       CUSTOM_DISABLE_DAY_MESSAGE
     );
 
-    cy.compareSnapshot(
-      "dateInputWithCustomDisableFutureMessage",
-      DEFAULT_THRESHOLD
-    );
+    cy.waitBeforeSnapshot("dateInputWithCustomDisableFutureMessage");
   });
 
   it("should display long custom disabledFutureMessage if disabled future day is set", () => {
@@ -476,10 +466,7 @@ describe("IcDateInput", () => {
     cy.findShadowEl(DATE_INPUT, MONTH_INPUT_ARIA_LABEL).type("02");
     cy.findShadowEl(DATE_INPUT, YEAR_INPUT_ARIA_LABEL).type("3024");
 
-    cy.compareSnapshot(
-      "dateInputWithLongCustomDisableFutureMessage",
-      DEFAULT_THRESHOLD
-    );
+    cy.waitBeforeSnapshot("dateInputWithLongCustomDisableFutureMessage");
   });
 
   it("should display custom disabledPastMessage if disabled past day is set", () => {
@@ -502,10 +489,7 @@ describe("IcDateInput", () => {
       CUSTOM_DISABLE_DAY_MESSAGE
     );
 
-    cy.compareSnapshot(
-      "dateInputWithCustomDisablePastMessage",
-      DEFAULT_THRESHOLD
-    );
+    cy.waitBeforeSnapshot("dateInputWithCustomDisablePastMessage");
   });
 
   it("should display long custom disabledPastMessage if disabled past day is set", () => {
@@ -523,10 +507,7 @@ describe("IcDateInput", () => {
     cy.findShadowEl(DATE_INPUT, MONTH_INPUT_ARIA_LABEL).type("02");
     cy.findShadowEl(DATE_INPUT, YEAR_INPUT_ARIA_LABEL).type("1990");
 
-    cy.compareSnapshot(
-      "dateInputWithLongCustomDisablePastMessage",
-      DEFAULT_THRESHOLD
-    );
+    cy.waitBeforeSnapshot("dateInputWithLongCustomDisablePastMessage");
   });
 
   it("should increase day if value already set", () => {
@@ -612,7 +593,7 @@ describe("IcDateInput", () => {
 
     cy.findShadowEl(DATE_INPUT, STATUS_TEXT_SPAN).should("have.text", "Error");
 
-    cy.compareSnapshot("dateInputWithErrorValidation", DEFAULT_THRESHOLD);
+    cy.waitBeforeSnapshot("dateInputWithErrorValidation");
   });
 
   it("should display warning validation", () => {
@@ -629,7 +610,7 @@ describe("IcDateInput", () => {
       "Warning"
     );
 
-    cy.compareSnapshot("dateInputWithWarningValidation", DEFAULT_THRESHOLD);
+    cy.waitBeforeSnapshot("dateInputWithWarningValidation");
   });
 
   it("should display success validation", () => {
@@ -646,6 +627,6 @@ describe("IcDateInput", () => {
       "Success"
     );
 
-    cy.compareSnapshot("dateInputWithSuccessValidation", DEFAULT_THRESHOLD);
+    cy.waitBeforeSnapshot("dateInputWithSuccessValidation");
   });
 });

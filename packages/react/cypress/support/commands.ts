@@ -54,6 +54,14 @@ declare global {
        * @param {any} optionObject object to replace the default axe ruleset, optional with CYPRESS_AXE_OPTIONS as default
        */
       checkA11yWithWait :typeof Commands.checkA11yWithWait;
+
+      /**
+       * Wait before screenshot to prevent any transitions being captured in screenshot
+       * @param {string} screenshotTitle screenshot title which appears in visual report
+       * @param {number} threshold number to allow snapshot to pass
+       * @param {number} wait time to wait before screenshot check, optional with 500 as default
+       */
+      waitBeforeSnapshot: typeof Commands.waitBeforeSnapshot;
     }
   }
 }
@@ -83,6 +91,11 @@ const checkA11yWithWait = (element: string | undefined = undefined, wait = 200, 
   cy.checkA11y(element, optionObject, CYPRESS_AXE_REPORTING);
 }
 
+const waitBeforeSnapshot = (screenshotTitle: string, threshold?: number, wait = 500) => {
+  cy.wait(wait);
+  cy.compareSnapshot(screenshotTitle, threshold);
+}
+
 const Commands = {
   checkHydrated,
   clickOnShadowEl,
@@ -90,6 +103,7 @@ const Commands = {
   findShadowEl,
   clickOnButton,
   checkA11yWithWait,
+  waitBeforeSnapshot
 };
 
 export default Commands;
