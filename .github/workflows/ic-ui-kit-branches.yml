@@ -153,17 +153,24 @@ jobs:
         id: core_cypress_tests
         run: npm run test-cypress:ci
 
+      - name: Upload core visual regression screenshots
+        if: always() && steps.core_cypress_tests.outcome == 'failure'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./packages/react/cypress-visual-screenshots
+          target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/cypress-visual-screenshots
+
+      - name: Upload core visual regression report
+        if: always() && steps.core_cypress_tests.outcome == 'failure'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./packages/react/cypress-visual-report
+          target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/cypress-visual-report
+
       - name: Canary Cypress tests
         if: ${{ needs.check-updates.outputs.canary == 'true' }}
         id: canary_cypress_tests
         run: npm run test-cypress:ci:canary
-
-      - name: Upload core visual regression diff screenshots
-        if: always() && steps.core_cypress_tests.outcome == 'failure'
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: ./packages/react/cypress-visual-screenshots/diff
-          target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/cypress-screenshots
 
       - name: Upload canary visual regression diff screenshots
         if: always() && steps.canary_cypress_tests.outcome == 'failure'
@@ -171,6 +178,13 @@ jobs:
         with:
           folder: ./packages/canary-react/cypress-visual-screenshots/diff
           target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/cypress-screenshots
+
+      - name: Upload canary visual regression report
+        if: always() && steps.canary_cypress_tests.outcome == 'failure'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./packages/canary-react/cypress-visual-report
+          target-folder: ./branches/${{ steps.extract_branch.outputs.branch }}/cypress-visual-report
 
   ic-ui-kit-deploy:
     needs:
