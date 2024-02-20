@@ -18,6 +18,9 @@ packages/react/storybook-static
 packages/canary-web-components/storybook-static
 packages/canary-react/storybook-static
 
+packages/canary-react/cypress-visual-report
+packages/react/cypress-visual-report
+
 *.log
 *.lock
 *.tmp
