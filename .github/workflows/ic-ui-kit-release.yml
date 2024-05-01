@@ -1,5 +1,5 @@
 name: Release
-# permissions: read-all
+permissions: read-all
 
 on: workflow_dispatch
 
@@ -10,11 +10,7 @@ jobs:
     name: "Release develop -> main"
     runs-on: ubuntu-latest
     permissions:
-<<<<<<< HEAD
       contents: read
-=======
-      contents: write
->>>>>>> 206ce827c (feat(root): release action update)
       pull-requests: write
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #v4.1.1
