@@ -16,7 +16,7 @@ import { IcThemeForeground, IcSizes } from "../../utils/types";
 let accordionIds = 0;
 
 /**
- * @slot heading - Content is placed as the accordion heading.
+ * @slot heading - Content is placed as the accordion.
  * @slot icon - Content is placed to the left of the heading.
  */
 
