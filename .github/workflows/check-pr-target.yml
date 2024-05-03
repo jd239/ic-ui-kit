@@ -6,9 +6,10 @@ on:
 
 jobs:
   check-branch:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
-      - uses: Vankka/pr-target-branch-action@1 #v2.1
+      - uses: Vankka/pr-target-branch-action@2.1 #v2.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
