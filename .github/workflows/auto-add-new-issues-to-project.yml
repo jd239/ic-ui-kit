@@ -23,7 +23,7 @@ jobs:
       - name: Add to project
         uses: actions/add-to-project@9bfe908f2eaa7ba10340b31e314148fcfe6a2458 #v1.0.1
         with:
-          project-url: https://github.com/orgs/mi6/projects/2
+          project-url: https://github.com/orgs/jd239/projects/2
           github-token: ${{ steps.generate_token.outputs.token }}
           labeled: dependencies
           label-operator: NOT

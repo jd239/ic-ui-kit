@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 #v4.1.1
         with:
-          repository: mi6/ic-ui-kit
+          repository: jd239/ic-ui-kit
           ref: gh-pages
 
       - name: Remove and commit
