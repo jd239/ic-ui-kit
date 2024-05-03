@@ -1,5 +1,5 @@
 name: Prevent PRs to main
-permissions: write-all
+permissions: read-all
 
 on:
   pull_request_target:
@@ -8,8 +8,8 @@ on:
 jobs:
   check-branch:
     runs-on: ubuntu-latest
-    # permissions:
-      # contents: write
+    permissions:
+      contents: write
       # pull-requests: write
     steps:
       - uses: Vankka/pr-target-branch-action@2 #v2.1
