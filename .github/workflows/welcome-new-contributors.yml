@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: github.event.pull_request.head.repo.full_name != 'mi6/ic-ui-kit'
+    if: github.event.pull_request.head.repo.full_name != 'jd239/ic-ui-kit'
     steps:
       - uses: actions/first-interaction@34f15e814fe48ac9312ccf29db4e74fa767cbab7 #v1.3.0
         with:
