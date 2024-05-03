@@ -38,6 +38,8 @@ table {
 
 :host([embedded="true"]) .table-container {
   border: var(--ic-border-light);
+  border-color: red;
+  border-width: 5px;
 }
 
 .column-header-sticky {
