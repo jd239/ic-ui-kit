@@ -27,6 +27,7 @@ import {
   IcDataTableTruncationTypes,
   IcDensityUpdateEventDetail,
   IcSortEventDetail,
+  IcLoadingOptions,
 } from "./ic-data-table.types";
 import { IcThemeForegroundNoDefault } from "@ukic/web-components/dist/types/utils/types";
 import { IcPaginationBarOptions } from "../../utils/types";
@@ -74,6 +75,7 @@ export class DataTable {
 
   private hasLoadedForOneSecond = true;
   private loadingIndicator: HTMLIcLoadingIndicatorElement;
+  private loadingOverlay: HTMLDivElement;
   private timerStarted: number;
   private resizeObserver: ResizeObserver = null;
   private SHOW_HIDE_STRING = "show-hide";
@@ -202,6 +204,7 @@ export class DataTable {
     min?: number;
     progress?: number;
     showBackground?: boolean;
+    overlay?: boolean;
   };
 
   /**
@@ -335,7 +338,7 @@ export class DataTable {
     this.sortedColumnOrder = this.sortOptions.sortOrders[0];
     this.loadingOptions = {
       ...this.loadingOptions,
-      showBackground: this.data?.length > 0,
+      showBackground: this.data?.length > 0 || this.loadingOptions.overlay,
     };
     this.initialLoad = true;
     this.previousItemsPerPage = this.rowsPerPage;
@@ -973,7 +976,7 @@ export class DataTable {
   async dataHandler(newData: IcDataTableDataType[]): Promise<void> {
     this.loadingOptions = {
       ...this.loadingOptions,
-      showBackground: newData?.length > 0,
+      showBackground: newData?.length > 0 || this.loadingOptions.overlay,
     };
     if (this.loading) {
       !this.hasLoadedForOneSecond
@@ -1088,6 +1091,9 @@ export class DataTable {
   }
 
   private showLoadingIndicator() {
+    if (this.loadingOptions.overlay) {
+      this.loadingOverlay?.classList.add("show");
+    }
     this.loadingIndicator?.classList.add("show");
   }
 
@@ -1864,11 +1870,84 @@ export class DataTable {
     });
   };
 
+  private renderTableBody = (
+    data: IcDataTableDataType[],
+    loading: boolean,
+    overlay: boolean
+  ) => {
+    if (!data.length) return;
+
+    if (overlay && loading) {
+      return <tbody>{this.createRows()}</tbody>;
+    } else if (loading && !overlay) {
+      return null;
+    } else {
+      return <tbody>{this.createRows()}</tbody>;
+    }
+  };
+
+  private renderLoadingIndicator = (
+    isLoading: boolean,
+    loadingOptions: IcLoadingOptions
+  ) => {
+    if (!isLoading) return null;
+
+    return (
+      <Fragment>
+        <div
+          class="loading-overlay"
+          ref={(el) => (this.loadingOverlay = el)}
+        ></div>
+        <ic-loading-indicator
+          appearance={loadingOptions?.appearance}
+          class={{
+            "loading-empty": isLoading,
+            loading: true,
+            "show-background":
+              loadingOptions.showBackground || loadingOptions.overlay,
+          }}
+          description={loadingOptions.description || "Loading table data"}
+          label={loadingOptions.label || "Loading..."}
+          labelDuration={loadingOptions?.labelDuration}
+          max={loadingOptions?.max}
+          min={loadingOptions?.min}
+          progress={loadingOptions?.progress}
+          ref={(el: HTMLIcLoadingIndicatorElement) =>
+            (this.loadingIndicator = el)
+          }
+        ></ic-loading-indicator>
+      </Fragment>
+    );
+  };
+
+  private renderEmptyState = (
+    data: IcDataTableDataType[],
+    loading: boolean,
+    overlay: boolean
+  ) => {
+    const emptyStateEl = isSlotUsed(this.el, "empty-state") ? (
+      <slot name="empty-state" />
+    ) : (
+      <ic-empty-state
+        aligned="center"
+        heading="No Data"
+        class="loading-empty"
+      ></ic-empty-state>
+    );
+
+    if (loading && !data?.length && overlay) {
+      return emptyStateEl;
+    } else if (!loading && !data?.length) {
+      return emptyStateEl;
+    } else {
+      return null;
+    }
+  };
+
   render() {
     const {
       caption,
       createColumnHeaders,
-      createRows,
       createUpdatingIndicator,
       data,
       hideColumnHeaders,
@@ -1923,39 +2002,11 @@ export class DataTable {
                 ) : (
                   createUpdatingIndicator()
                 ))}
-              {data?.length > 0 && !loading && <tbody>{createRows()}</tbody>}
+              {this.renderTableBody(data, loading, loadingOptions.overlay)}
             </table>
-            {!data?.length &&
-              !loading &&
-              (isSlotUsed(this.el, "empty-state") ? (
-                <slot name="empty-state" />
-              ) : (
-                <ic-empty-state
-                  aligned="center"
-                  heading="No Data"
-                  class="loading-empty"
-                ></ic-empty-state>
-              ))}
+            {this.renderEmptyState(data, loading, loadingOptions.overlay)}
           </div>
-          {loading && (
-            <ic-loading-indicator
-              appearance={loadingOptions?.appearance}
-              class={{
-                "loading-empty": loading,
-                loading: true,
-                "show-background": loadingOptions.showBackground,
-              }}
-              description={loadingOptions.description || "Loading table data"}
-              label={loadingOptions.label || "Loading..."}
-              labelDuration={loadingOptions?.labelDuration}
-              max={loadingOptions?.max}
-              min={loadingOptions?.min}
-              progress={loadingOptions?.progress}
-              ref={(el: HTMLIcLoadingIndicatorElement) =>
-                (this.loadingIndicator = el)
-              }
-            ></ic-loading-indicator>
-          )}
+          {this.renderLoadingIndicator(loading, loadingOptions)}
           {(showPagination || isSlotUsed(this.el, "pagination-bar")) && (
             <div class="pagination-container">
               {isSlotUsed(this.el, "pagination-bar") ? (
