@@ -1989,9 +1989,9 @@
       ]
     }
   ],
-  "startedAt": "2025-01-03T12:24:51.763Z",
-  "endedAt": "2025-01-03T13:10:29.341Z",
-  "duration": 2720283,
+  "startedAt": "2025-01-03T13:44:44.138Z",
+  "endedAt": "2025-01-03T14:31:13.544Z",
+  "duration": 2772091,
   "browserName": "electron",
   "browserVersion": "114.0.5735.289",
   "cypressVersion": "13.6.4"
