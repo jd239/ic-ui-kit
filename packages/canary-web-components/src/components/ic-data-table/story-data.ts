@@ -1210,6 +1210,34 @@ export const Loading = (): HTMLIcDataTableElement => {
   dataTable.setAttribute("loading", "true");
   return dataTable;
 };
+
+export const LoadingWithOverlay = (): HTMLIcDataTableElement => {
+  const dataTable = createDataTableElement(
+    "Loading State With Overlay",
+    COLS,
+    DATA
+  );
+
+  dataTable.loadingOptions = {
+    overlay: true,
+  };
+
+  setTimeout(() => {
+    dataTable.setAttribute("loading", "true");
+  }, 2000);
+
+  setTimeout(() => {
+    dataTable.data = LONG_DATA_VALUES;
+  }, 5000);
+
+  const paginationBar = document.createElement("ic-pagination-bar");
+  paginationBar.setAttribute("slot", "pagination-bar");
+
+  dataTable.appendChild(paginationBar);
+
+  return dataTable;
+};
+
 export const EmptyLoading = (): HTMLIcDataTableElement => {
   const dataTable = createDataTableElement(
     "Empty and Loading State",
