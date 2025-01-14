@@ -47,6 +47,11 @@ export const COLS: IcDataTableColumnObject[] = [
     title: "Address",
     dataType: "address",
   },
+  {
+    key: "actions",
+    title: "Actions",
+    dataType: "element",
+  },
 ];
 
 export const COLS_WIDTH: IcDataTableColumnObject[] = [
@@ -175,39 +180,25 @@ export const COLS_ALIGNMENT: IcDataTableColumnObject[] = [
 export const DATA = [
   {
     firstName: "Joe",
-    lastName: "Bartholomew Christoper Augustine Zacchaeus Ashford", // cspell:disable-line
+    lastName: "Bartholomew", // cspell:disable-line
     age: 30,
     jobTitle: "Developer",
-    address: "1 Main Street, Town, County, Postcode",
+    address: "1 Main Street, Town, County",
   },
-  {
-    firstName: "Sarah",
-    lastName: "Smith",
-    age: 28,
-    jobTitle: "Senior Software Developer, Site Reliability Engineering",
-    address: "2 Main Street, Town, Country, Postcode",
-  },
-  {
-    firstName: "Mark",
-    lastName: "Owens",
-    age: 45,
-    jobTitle: "Team Lead",
-    address: "12 Key Street, Town, Country, Postcode",
-  },
-  {
-    firstName: "Naomi",
-    lastName: "Thomas",
-    age: 32,
-    jobTitle: "Analyst",
-    address: "8 Side Street, Town, Country, Postcode",
-  },
-  {
-    firstName: "Luke",
-    lastName: "Ashford",
-    age: 18,
-    jobTitle: "Junior Developer",
-    address: "5 New Street, Town, Country, Postcode",
-  },
+  // {
+  //   firstName: "Sarah",
+  //   lastName: "Smith",
+  //   age: 28,
+  //   jobTitle: "Senior",
+  //   address: "2 Main Street, Town, Country",
+  // },
+  // {
+  //   firstName: "Mark",
+  //   lastName: "Owens",
+  //   age: 45,
+  //   jobTitle: "Team Lead",
+  //   address: "12 Key Street, Town, Country",
+  // },
 ];
 export const LONG_TEXT = [
   {
@@ -1058,6 +1049,25 @@ export const createDataTableElement = (
 
 export const Basic = (): HTMLIcDataTableElement => {
   const dataTable = createDataTableElement("Basic Table");
+  DATA.forEach((_, i) => {
+    const button = document.createElement('ic-button');
+    const wrapper = document.createElement('div');
+    wrapper.setAttribute('slot', `actions-${i}`);
+    button.variant = 'icon';
+    button.setAttribute('aria-label', 'refresh');
+    button.innerHTML =`<svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 0 24 24"
+        width="24px"
+        fill="#000000"
+      >
+        <path d="M0 0h24v24H0V0z" fill="none" />
+        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+      </svg>`;
+      wrapper.appendChild(button);
+      dataTable.appendChild(wrapper);
+  })
   dataTable.setAttribute("sortable", "true");
   return dataTable;
 };

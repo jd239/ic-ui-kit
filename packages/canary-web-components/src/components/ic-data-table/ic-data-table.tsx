@@ -1853,21 +1853,36 @@ export class DataTable {
     tooltipEl.appendChild(typographyEl);
   }
 
+  private fixTooltip = (element: HTMLElement) => {
+    let tooltip: HTMLIcTooltipElement;
+
+    if (element.tagName === "IC-TOOLTIP") {
+      tooltip = element as HTMLIcTooltipElement
+    } else if (element.shadowRoot?.querySelector(this.IC_TOOLTIP_STRING)) {
+      tooltip = element.shadowRoot?.querySelector(this.IC_TOOLTIP_STRING) as HTMLIcTooltipElement
+    } else {
+      if (!!element.children.length) {
+        Array.from(element.children).forEach((el) => {
+          this.fixTooltip(el as HTMLElement)
+        })
+      } else {
+        return
+      }
+    }
+
+    if (tooltip) {
+      tooltip.setExternalPopperProps({
+        strategy: "fixed",
+      });
+    }
+  }
+
   private fixCellTooltips = () => {
     const elements = this.el.shadowRoot.querySelectorAll(".data-type-element");
     elements.forEach((element) => {
       const slotElements = getSlotElements(element);
       slotElements.forEach((slottedEl: HTMLElement) => {
-        const tooltipEl = (
-          slottedEl.tagName === "IC-TOOLTIP"
-            ? slottedEl
-            : slottedEl.shadowRoot?.querySelector(this.IC_TOOLTIP_STRING)
-        ) as HTMLIcTooltipElement;
-        if (tooltipEl) {
-          tooltipEl.setExternalPopperProps({
-            strategy: "fixed",
-          });
-        }
+        this.fixTooltip(slottedEl)
       });
     });
   };
