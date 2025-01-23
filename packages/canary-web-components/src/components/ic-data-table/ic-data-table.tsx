@@ -77,7 +77,7 @@ export class DataTable {
 
   private hasLoadedForOneSecond = true;
   private loadingIndicator: HTMLIcLoadingIndicatorElement;
-  private loadingOverlay: HTMLDivElement;
+  // private loadingOverlay: HTMLDivElement;
   private timerStarted: number;
   private resizeObserver: ResizeObserver = null;
   private SHOW_HIDE_STRING = "show-hide";
@@ -1149,9 +1149,9 @@ export class DataTable {
   }
 
   private showLoadingIndicator() {
-    if (this.loadingOptions?.overlay) {
-      this.loadingOverlay?.classList.add("show");
-    }
+    // if (this.loadingOptions?.overlay) {
+    //   this.loadingOverlay?.classList.add("show");
+    // }
     this.loadingIndicator?.classList.add("show");
   }
 
@@ -2142,10 +2142,12 @@ export class DataTable {
 
     return (
       <Fragment>
+        {this.loadingOptions.overlay && (
         <div
           class="loading-overlay"
-          ref={(el) => (this.loadingOverlay = el)}
+          // ref={(el) => (this.loadingOverlay = el)}
         ></div>
+        )}
         <ic-loading-indicator
           appearance={loadingOptions?.appearance}
           class={{

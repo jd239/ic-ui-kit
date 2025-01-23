@@ -1386,6 +1386,54 @@ export const Loading = (): HTMLIcDataTableElement => {
   return dataTable;
 };
 
+export const LoadingWithOverlay = (): HTMLIcDataTableElement => {
+  const pageOptions = [{ label: "5", value: "5" }];
+
+  let data = Array.from({ length: 50 }).map((_, index) => ({
+      firstName: `Joe-${index}`,
+      lastName: `Bartholomew-${index}`, // cspell:disable-line
+      age: index,
+      jobTitle: `Developer-${index}`,
+      address: `${index} Main Street`,
+  }));
+
+  const initialData = data.slice(0,5);
+
+  const dataTable = createDataTableElement("Loading State", COLS, initialData);
+  const paginationBar = document.createElement('ic-pagination-bar');
+
+
+  // dataTable.showPagination = true;
+  paginationBar.itemsPerPageOptions = pageOptions;
+  paginationBar.showItemsPerPageControl = true;
+  paginationBar.showGoToPageControl = true;
+  paginationBar.totalItems = 50;
+  paginationBar.rangeLabelType = 'page';
+
+  paginationBar.addEventListener('icPageChange', (event) => {
+    if (event.detail.value !== 1) dataTable.loading = true;
+
+    if (event.detail.value === 2) {
+      const nextData = data.slice(5, 10);
+      dataTable.data = nextData;
+    } else if (event.detail.value === 3) {
+      const nextData = data.slice(10, 15);
+      dataTable.data = nextData;
+    }
+  })
+
+  dataTable.loadingOptions = {
+    overlay: true
+  }
+  paginationBar.setAttribute('slot', 'pagination-bar')
+  dataTable.appendChild(paginationBar);
+
+
+
+  // dataTable.setAttribute("loading", "true");
+  return dataTable;
+};
+
 export const EmptyLoading = (): HTMLIcDataTableElement => {
   const dataTable = createDataTableElement(
     "Empty and Loading State",

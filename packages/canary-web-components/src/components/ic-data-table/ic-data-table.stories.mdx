@@ -43,6 +43,7 @@ import {
   DevArea,
   CellDescriptions,
   LongCellDescriptions,
+  LoadingWithOverlay,
 } from "./story-data";
 import readme from "./readme.md";
 
@@ -75,6 +76,14 @@ A basic example with no functionality.
 
 <Canvas withSource="none">
   <Story name="Basic">{Basic()}</Story>
+</Canvas>
+
+### Basic
+
+A basic example with no functionality.
+
+<Canvas withSource="none">
+  <Story name="overlay">{LoadingWithOverlay()}</Story>
 </Canvas>
 
 #### Basic code example

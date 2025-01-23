@@ -388,7 +388,7 @@ td.table-density-spacious {
 }
 
 .loading-overlay {
-  visibility: hidden;
+  /* visibility: hidden; */
   position: absolute;
   top: 0;
   left: 0;
@@ -396,14 +396,14 @@ td.table-density-spacious {
   height: 100%;
   background: var(--ic-architectural-black);
   z-index: calc(var(--ic-z-index-dialog) - 2);
-  opacity: 0;
+  opacity: 0.6;
   transition: opacity var(--ic-transition-duration-slow);
 }
 
-.loading-overlay.show {
+/* .loading-overlay.show {
   visibility: visible;
-  opacity: 0.6;
-}
+  opacity: 0;
+} */
 
 .sr-only {
   position: absolute;
