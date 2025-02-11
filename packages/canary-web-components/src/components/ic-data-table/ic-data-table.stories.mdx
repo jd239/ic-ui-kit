@@ -43,6 +43,7 @@ import {
   DevArea,
   CellDescriptions,
   LongCellDescriptions,
+  LoadingWithOverlay,
 } from "./story-data";
 import readme from "./readme.md";
 
@@ -796,7 +797,7 @@ If it needs to be determinate, use `max`, `min` and `progress`.
 
 <Canvas withSource="none">
   <Story name="Loading State" height="360px">
-    {Loading()}
+    {LoadingWithOverlay()}
   </Story>
 </Canvas>
 

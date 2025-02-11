@@ -1033,12 +1033,13 @@ export class DataTable {
       showBackground: newData?.length > 0 || !!this.loadingOptions?.overlay,
     };
     if (this.loading) {
+      console.log(this.hasLoadedForOneSecond)
+      // this.hasLoadedForOneSecond && (this.loading = true)
+      console.log('time remaining', this.minimumLoadingDisplayDuration - (Date.now() - this.timerStarted));
       !this.hasLoadedForOneSecond
-        ? setTimeout(
-            () => (this.loading = false),
-            this.minimumLoadingDisplayDuration -
-              (Date.now() - this.timerStarted)
-          )
+        ? setTimeout(() => (
+          this.loading = false
+        ), this.minimumLoadingDisplayDuration - (Date.now() - this.timerStarted))
         : (this.loading = false);
     }
     if (this.updating) this.updating = false;
@@ -1156,10 +1157,12 @@ export class DataTable {
   }
 
   private startLoadingTimer = (): void => {
+    console.log('startLoadingTimer')
     this.hasLoadedForOneSecond = false;
     this.timerStarted = Date.now();
     setTimeout(() => {
       this.hasLoadedForOneSecond = true;
+      console.log('startLoadingTimer time')
       this.timerStarted = null;
     }, this.minimumLoadingDisplayDuration);
   };
