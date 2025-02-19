@@ -1388,36 +1388,52 @@ export const Loading = (): HTMLIcDataTableElement => {
 
 export const LoadingWithOverlay = () => {
   const wrapper = document.createElement('div');
-  const dataTable = createDataTableElement("Loading State", COLS, []);
-  dataTable.setAttribute("loading", "true");
-  dataTable.loadingOptions = {
-    overlay: true
-  }
+  const dataTable = createDataTableElement("Loading State", COLS, LONG_DATA);
+  // dataTable.setAttribute("loading", "true");
+  // dataTable.loadingOptions = {
+  //   overlay: true
+  // }
 
-  setTimeout(() => {
-    dataTable.data = DATA;
-    dataTable.setAttribute("loading", "false");
-  }, 3000)
+  // setTimeout(() => {
+  //   dataTable.data = DATA;
+  //   dataTable.setAttribute("loading", "false");
+  // }, 3000)
 
-  const button = document.createElement("ic-button");
-  button.innerHTML = "Load data";
+  // const button = document.createElement("ic-button");
+  // button.innerHTML = "Load data";
 
-  button.addEventListener('click', () => {
-  dataTable.setAttribute("loading", "true");
+  // button.addEventListener('click', () => {
+  // dataTable.setAttribute("loading", "true");
 
-  setTimeout(() => {
-    dataTable.data = LONG_DATA;
-    dataTable.setAttribute("loading", "false");
-  }, 500)
-  })
+  // setTimeout(() => {
+  //   dataTable.data = LONG_DATA;
+  //   dataTable.setAttribute("loading", "false");
+  // }, 500)
+  // })
 
   const paginationBar = document.createElement('ic-pagination-bar');
+  // paginationBar.showItemsPerPageControl = true;
+  // paginationBar.itemsPerPageOptions = [
+  //   { label: '2', value: '2' },
+  //   { label: '5', value: '5' },
+  // ];
+  paginationBar.setAttribute("total-items", `${LONG_DATA.length}`);
+  paginationBar.setAttribute("show-items-per-page-control", "true");
+  paginationBar.itemsPerPageOptions = [
+    { label: "5", value: "5" },
+    { label: "10", value: "10" },
+  ];
   paginationBar.setAttribute('slot', 'pagination-bar');
+
+  paginationBar.addEventListener('icItemsPerPageChange', () => {
+    // dataTable.setAttribute("loading", "true");
+    console.log('HERE');
+  })
 
   dataTable.appendChild(paginationBar);
 
   wrapper.insertAdjacentElement('beforeend', dataTable);
-  wrapper.insertAdjacentElement('beforeend', button);
+  // wrapper.insertAdjacentElement('beforeend', button);
 
 
   // dataTable.insertAdjacentElement('afterend', button)
@@ -1681,8 +1697,15 @@ export const SlottedPagination = (): HTMLIcDataTableElement => {
   ];
   paginationBar.setAttribute("slot", "pagination-bar");
   paginationBar.addEventListener("icItemsPerPageChange", (ev) => {
-    itemsPerPage = ev.detail.value;
-    dataTable.data = LONG_DATA.slice(0, itemsPerPage);
+    console.log('HERE');
+    dataTable.setAttribute('loading', 'true');
+
+    new Promise((res) => setTimeout(res, 3000)).then(() => {
+      itemsPerPage = ev.detail.value;
+      dataTable.data = LONG_DATA.slice(0, itemsPerPage);  
+      dataTable.setAttribute('loading', 'false');
+
+    })
   });
   paginationBar.addEventListener("icPageChange", (ev) => {
     const fromRow = (ev.detail.value - 1) * itemsPerPage;
