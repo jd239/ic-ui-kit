@@ -1862,8 +1862,10 @@ export const SlottedPagination = (): HTMLIcDataTableElement => {
   const dataTable = createDataTableElement(
     "slotted-pagination",
     LONG_COLS,
-    LONG_DATA
   );
+  dataTable.loadingOptions = {
+    overlay: true,
+  }
   const paginationBar = document.createElement("ic-pagination-bar");
   paginationBar.setAttribute("total-items", `${LONG_DATA.length}`);
   paginationBar.setAttribute("show-items-per-page-control", "true");
@@ -1873,10 +1875,12 @@ export const SlottedPagination = (): HTMLIcDataTableElement => {
   ];
   paginationBar.setAttribute("slot", "pagination-bar");
   paginationBar.addEventListener("icItemsPerPageChange", (ev) => {
+    dataTable.loading = true;
     itemsPerPage = ev.detail.value;
     dataTable.data = LONG_DATA.slice(0, itemsPerPage);
   });
   paginationBar.addEventListener("icPageChange", (ev) => {
+    dataTable.loading = true;
     const fromRow = (ev.detail.value - 1) * itemsPerPage;
     dataTable.data = LONG_DATA.slice(fromRow, fromRow + itemsPerPage);
   });
