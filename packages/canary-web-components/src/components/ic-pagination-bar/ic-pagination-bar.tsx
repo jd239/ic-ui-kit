@@ -113,18 +113,10 @@ export class PaginationBar {
       this.selectedItemsPerPage !== null &&
       this.selectedItemsPerPage !== undefined
     ) {
-      if (
-        this.displayedItemsPerPageOptions?.filter(
-          (option) => option.value === `${this.selectedItemsPerPage}`
-        ).length
-      ) {
-        this.setItemsPerPage(this.selectedItemsPerPage, false);
-      } else {
-        console.error(
-          `The selected items per page option "${this.selectedItemsPerPage}" does not exist`
-        );
-        this.setItemsPerPage(this.totalItems, false);
-      }
+      this.setSelectedItemsPerPage(
+        this.selectedItemsPerPage,
+        this.displayedItemsPerPageOptions
+      );
     }
   }
 
@@ -281,6 +273,23 @@ export class PaginationBar {
     const page = ev.detail.value;
     this.changePage(page);
   }
+
+  private setSelectedItemsPerPage = (
+    selectedItemsPerPage: number,
+    displayedItemsPerPageOptions: { label: string; value: string }[] = []
+  ) => {
+    const isSelectedItemsPerPagePresent = displayedItemsPerPageOptions?.some(
+      ({ value }) => value === this.selectedItemsPerPage?.toString()
+    );
+    if (isSelectedItemsPerPagePresent) {
+      this.setItemsPerPage(selectedItemsPerPage, false);
+    } else {
+      console.error(
+        `The selected items per page option "${this.selectedItemsPerPage}" does not exist`
+      );
+      this.setItemsPerPage(this.totalItems, false);
+    }
+  };
 
   private changeItemsPerPage = () => {
     this.setItemsPerPage(Number(this.pageDropdownEl.value));
@@ -488,18 +497,10 @@ export class PaginationBar {
         this.selectedItemsPerPage !== null &&
         this.selectedItemsPerPage !== undefined
       ) {
-        const isSelectedItemsPerPagePresent =
-          this.displayedItemsPerPageOptions.some(
-            ({ value }) => value === this.selectedItemsPerPage?.toString()
-          );
-        if (isSelectedItemsPerPagePresent) {
-          this.setItemsPerPage(this.selectedItemsPerPage, false);
-        } else {
-          console.error(
-            `The selected items per page option "${this.selectedItemsPerPage}" does not exist`
-          );
-          this.setItemsPerPage(this.totalItems, false);
-        }
+        this.setSelectedItemsPerPage(
+          this.selectedItemsPerPage,
+          this.displayedItemsPerPageOptions
+        );
       } else {
         const updated = this.displayedItemsPerPageOptions.some(({ value }) => {
           lastOptionValue = Number(value);

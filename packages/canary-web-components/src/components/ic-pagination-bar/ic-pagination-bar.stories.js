@@ -253,30 +253,3 @@ export const SetCurrentPageToInvalidValue = {
   </div>`,
   name: "Set the current page to an invalid value",
 };
-
-export const PaginationBug = {
-  render: () => html`<div style="height:150px">
-      <ic-pagination-bar
-        total-items="50"
-        selected-items-per-page="100"
-        show-items-per-page-control="true"
-      ></ic-pagination-bar>
-    </div>
-    <script>
-      var pag = document.querySelector("ic-pagination-bar");
-      pag.itemsPerPageOptions = [
-        { label: "10", value: "10" },
-        { label: "25", value: "25" },
-        { label: "50", value: "50" },
-        { label: "100", value: "100" },
-        { label: "200", value: "200" },
-      ];
-      setTimeout(() => {
-        console.log("TRIGGERED");
-        // pag.totalItems = 30;
-
-        // pag.selectedItemsPerPage = "200";
-      }, 3000);
-    </script>`,
-  name: "Set pagination items per page fix",
-};
