@@ -123,6 +123,7 @@ export class PaginationBar {
         console.error(
           `The selected items per page option "${this.selectedItemsPerPage}" does not exist`
         );
+        this.setItemsPerPage(this.totalItems, false);
       }
     }
   }
@@ -225,7 +226,6 @@ export class PaginationBar {
   @Watch("totalItems")
   watchTotalItemsHandler(): void {
     this.setPaginationBarContent();
-    this.watchSelectedItemsPerPageHandler();
   }
 
   /**
@@ -258,7 +258,6 @@ export class PaginationBar {
     this.watchPageLabelHandler();
     this.watchItemLabelHandler();
     this.setPaginationBarContent();
-    this.watchSelectedItemsPerPageHandler();
   }
 
   componentDidLoad(): void {
@@ -485,17 +484,34 @@ export class PaginationBar {
       });
       this.setItemsPerPage(lastOptionValue);
     } else {
-      const updated = this.displayedItemsPerPageOptions.some(({ value }) => {
-        lastOptionValue = Number(value);
-        return this.totalItems <= lastOptionValue;
-      });
-
-      this.setItemsPerPage(
-        updated || (!updated && this.itemsPerPage > lastOptionValue)
-          ? lastOptionValue
-          : this.itemsPerPage,
-        false
-      );
+      if (
+        this.selectedItemsPerPage !== null &&
+        this.selectedItemsPerPage !== undefined
+      ) {
+        const isSelectedItemsPerPagePresent =
+          this.displayedItemsPerPageOptions.some(
+            ({ value }) => value === this.selectedItemsPerPage?.toString()
+          );
+        if (isSelectedItemsPerPagePresent) {
+          this.setItemsPerPage(this.selectedItemsPerPage, false);
+        } else {
+          console.error(
+            `The selected items per page option "${this.selectedItemsPerPage}" does not exist`
+          );
+          this.setItemsPerPage(this.totalItems, false);
+        }
+      } else {
+        const updated = this.displayedItemsPerPageOptions.some(({ value }) => {
+          lastOptionValue = Number(value);
+          return this.itemsPerPage <= lastOptionValue;
+        });
+        this.setItemsPerPage(
+          updated || (!updated && this.itemsPerPage > lastOptionValue)
+            ? lastOptionValue
+            : this.itemsPerPage,
+          false
+        );
+      }
     }
   };
 
