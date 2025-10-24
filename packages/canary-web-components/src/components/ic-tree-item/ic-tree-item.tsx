@@ -492,9 +492,11 @@ export class TreeItem {
                 <slot name="icon" />
               </div>
             )}
-            <ic-typography class="tree-item-label">
-              {isSlotUsed(this.el, "label") ? <slot name="label" /> : label}
-            </ic-typography>
+            {isSlotUsed(this.el, "label") ? (
+              <slot name="label" />
+            ) : (
+              <ic-typography class="tree-item-label">{label}</ic-typography>
+            )}
           </Component>
         )}
         {expanded && (
